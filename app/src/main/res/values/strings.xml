@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Practica4</string>
+    <string name="ic_add">Añadir</string>
+    <string name="ic_del">Borrar</string>
+    <string name="ic_about">Acerca de...</string>
+    <string name="mensaje_dialogo1">Practica 4 </string>
+    <string name="mensaje_dialogo2">V 1.0 </string>
+    <string name="mensaje_dialogo3">Alexandro Rodríguez Parrón</string>
+    <string name="mensaje_dialogo4">Licencia cc</string>
+    <string name="mensaje_dialogo5">(Creative Commons)</string>
+
+
+    <string name="ok">OK</string>
 </resources>
