@@ -8,7 +8,25 @@
     <string name="mensaje_dialogo3">Alexandro Rodríguez Parrón</string>
     <string name="mensaje_dialogo4">Licencia cc</string>
     <string name="mensaje_dialogo5">(Creative Commons)</string>
-
-
     <string name="ok">OK</string>
+
+    //Arrays
+    <string-array name="prioridad">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+    </string-array>
+    <string-array name="categoria">
+        <item>Reparación</item>
+        <item>Instalación</item>
+        <item>Mantenimiento</item>
+        <item>Comercial</item>
+        <item>otros</item>
+    </string-array>
+    <string-array name="estado">
+        <item>Abierta</item>
+        <item>En curso</item>
+        <item>Terminada</item>
+    </string-array>
+
 </resources>
