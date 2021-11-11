@@ -1,4 +1,4 @@
-package net.iessochoa.joseantoniolopez.ejemplospractica4.ejemplorecyclerv.model;
+package model;
 
 import android.app.Application;
 
@@ -28,14 +28,14 @@ import model.Tarea;
  * Mantendremos en esta clase el CRUD(altas,bajas y modificaciones) sobre la lista de Notas y al actualizar
  * el LiveData se llamará al observer creado en la activity para mostrar los datos en pantalla
  */
-public class NotasViewModel  extends AndroidViewModel {
+public class TareasViewModel extends AndroidViewModel {
     //si queremos que la actividad reciba un aviso cuando se modifican los datos, tenemos que crear
     //un LiveData(https://developer.android.com/topic/libraries/architecture/livedata)
     //
     private MutableLiveData<List<Tarea>> listaNotasLiveData;
     //esta lista se mantendrá durante la vida de la Actividad
     private List<Tarea> listaTareas;
-    public NotasViewModel(@NonNull Application application) {
+    public TareasViewModel(@NonNull Application application) {
         super(application);
         //el liveData nos permitirá recibir notificaciones  en la actividad cuando se modifique la lista
         listaNotasLiveData=new MutableLiveData<List<Tarea>>();

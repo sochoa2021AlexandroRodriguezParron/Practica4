@@ -1,6 +1,10 @@
 package net.iessochoa.alexandrorodriguez.practica4;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -8,12 +12,43 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.List;
+
+
+import adapters.TareasAdapter;
+import model.Tarea;
+import model.TareasViewModel;
+
 public class MainActivity extends AppCompatActivity {
+
+    private TareasAdapter tareasAdapter;
+    private TareasViewModel tareasViewModel;
+    private RecyclerView rvLista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rvLista = findViewById(R.id.rvLista);
+
+        //RecyclerView
+        tareasAdapter = new TareasAdapter();
+        rvLista.setLayoutManager(new LinearLayoutManager(this));
+        rvLista.setAdapter(tareasAdapter);
+        //ViewModel
+        tareasViewModel = new ViewModelProvider(this).get(TareasViewModel.class);
+
+        // se muestren automáticamente
+        tareasViewModel.getNotaList().observe(this, new Observer<List<Tarea>>() {
+            @Override
+            public void onChanged(List<Tarea> tarea) {
+                //actualizamos el recyclerView si hay cambios en la lista de Notas
+                tareasAdapter.setListaTareas(tarea);
+            }
+        });
+
+
     }
 
     //Insertamos el menu con sus opciones.
