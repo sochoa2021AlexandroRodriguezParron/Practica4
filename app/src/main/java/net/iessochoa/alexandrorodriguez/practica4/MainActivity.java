@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         tareasViewModel = new ViewModelProvider(this).get(TareasViewModel.class);
 
         // se muestren automáticamente
-        tareasViewModel.getNotaList().observe(this, new Observer<List<Tarea>>() {
+        tareasViewModel.getTareaList().observe(this, new Observer<List<Tarea>>() {
             @Override
             public void onChanged(List<Tarea> tarea) {
                 //actualizamos el recyclerView si hay cambios en la lista de Notas

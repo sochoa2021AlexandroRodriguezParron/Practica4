@@ -49,7 +49,7 @@ public class TareasViewModel extends AndroidViewModel {
      * cuando se modifican los datos
      * @return
      */
-    public LiveData<List<Tarea>> getNotaList(){
+    public LiveData<List<Tarea>> getTareaList(){
         return listaNotasLiveData;
     }
 
@@ -57,8 +57,8 @@ public class TareasViewModel extends AndroidViewModel {
      * nos permite añadir una Nota a la lista
      * @param tarea
      */
-    public void addNota(Tarea tarea){
-        //añadimos una Nota a la lista, si existe(mismo id), la sustituimos
+    public void addTarea(Tarea tarea){
+        //añadimos una Tarea a la lista, si existe(mismo id), la sustituimos
         int i=listaTareas.indexOf(tarea);
         if(i<0)
             listaTareas.add(tarea);
@@ -72,7 +72,7 @@ public class TareasViewModel extends AndroidViewModel {
     /*
     Eliminamos la nota por id
      */
-    public void delNota(Tarea tarea){
+    public void delTarea(Tarea tarea){
         if(listaTareas.size()>0){
             listaTareas.remove(tarea);
             //avisamos al LiveData para que active el Observer

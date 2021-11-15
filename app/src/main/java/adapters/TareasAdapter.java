@@ -46,6 +46,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
             final Tarea tarea = listaTareas.get(position);
             //mostramos los datos;
             holder.tv_resumen.setText(tarea.getId()+"-"+tarea.getDescripcion());
+            holder.tv_tecnico.setText(tarea.getTecnico());
             //en función del tipo de Tarea, mostramos un icono u otro
 
             switch (tarea.getEstado()) {
