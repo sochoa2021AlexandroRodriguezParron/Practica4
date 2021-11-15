@@ -9,6 +9,12 @@
     <string name="mensaje_dialogo4">Licencia cc</string>
     <string name="mensaje_dialogo5">(Creative Commons)</string>
     <string name="ok">OK</string>
+    <string name="tv_categoria">Categoria</string>
+    <string name="tv_Prioridad">Prioridad</string>
+    <string name="tv_Estado">Estado</string>
+    <string name="tv_TecAsig">Técnico Asignado</string>
+    <string name="tv_Descr">Breve Descripción</string>
+    <string name="tv_Descripcion">Descripción</string>
 
     //Arrays
     <string-array name="prioridad">
