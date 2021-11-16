@@ -15,6 +15,8 @@
     <string name="tv_TecAsig">Técnico Asignado</string>
     <string name="tv_Descr">Breve Descripción</string>
     <string name="tv_Descripcion">Descripción</string>
+    <string name="hintTecnico">tecnico</string>
+    <string name="hintResumen">resumen</string>
 
     //Arrays
     <string-array name="prioridad">

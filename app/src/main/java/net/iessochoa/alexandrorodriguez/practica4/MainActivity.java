@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TareasAdapter tareasAdapter;
     private TareasViewModel tareasViewModel;
     private RecyclerView rvLista;
+    private FloatingActionButton fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         rvLista = findViewById(R.id.rvLista);
+        fabAdd = findViewById(R.id.fabAdd);
 
         //RecyclerView
         tareasAdapter = new TareasAdapter();
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 tareasAdapter.setListaTareas(tarea);
             }
         });
+
 
 
     }
