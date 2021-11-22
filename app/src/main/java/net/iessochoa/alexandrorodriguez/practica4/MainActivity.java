@@ -1,15 +1,23 @@
 package net.iessochoa.alexandrorodriguez.practica4;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +35,33 @@ public class MainActivity extends AppCompatActivity {
     private TareasViewModel tareasViewModel;
     private RecyclerView rvLista;
     private FloatingActionButton fabAdd;
+
+    //Método que nos permitirá obtener los datos de la actividad NuevoContactoActivity
+    ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    //si el usuario pulsa OK en la Activity que hemos llamado
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        //recuperamos los dados
+                        Intent intent = result.getData();
+                        String prioridad = intent.getStringExtra(TareaActivity.EXTRA_PRIORIDAD);
+                        String categoria = intent.getStringExtra(TareaActivity.EXTRA_CATEGORIA);
+                        String estado = intent.getStringExtra(TareaActivity.EXTRA_ESTADO);
+                        String tecnico = intent.getStringExtra(TareaActivity.EXTRA_TECNICO);
+                        String resumen = intent.getStringExtra(TareaActivity.EXTRA_RESUMEN);
+                        String descripcion = intent.getStringExtra(TareaActivity.EXTRA_DESCRIPCION);
+
+                        Toast.makeText(MainActivity.this, "El técnico es: "+tecnico, Toast.LENGTH_SHORT).show();
+
+                        Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
+                        TareasViewModel tareasViewModel = new TareasViewModel(null);
+                        tareasViewModel.addTarea(tarea);
+
+                    }
+                }
+            });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +87,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, TareaActivity.class);
+                mStartForResult.launch(i);
+            }
+        });
     }
 
     //Insertamos el menu con sus opciones.

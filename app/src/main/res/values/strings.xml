@@ -12,11 +12,12 @@
     <string name="tv_categoria">Categoria</string>
     <string name="tv_Prioridad">Prioridad</string>
     <string name="tv_Estado">Estado</string>
-    <string name="tv_TecAsig">Técnico Asignado</string>
-    <string name="tv_Descr">Breve Descripción</string>
     <string name="tv_Descripcion">Descripción</string>
-    <string name="hintTecnico">tecnico</string>
-    <string name="hintResumen">resumen</string>
+    <string name="hintTecnico">Técnico Asignado</string>
+    <string name="hintResumen">Breve Descripción</string>
+    <string name="campoTecnico">Falta el campo del Técnico</string>
+    <string name="campoBreveDescripcion">Falta el campo de la Breve Descripción</string>
+    <string name="campoDescripcion">Falta el campo de la Descripción</string>
 
     //Arrays
     <string-array name="prioridad">

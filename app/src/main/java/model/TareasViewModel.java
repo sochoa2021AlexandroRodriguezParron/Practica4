@@ -35,6 +35,7 @@ public class TareasViewModel extends AndroidViewModel {
     private MutableLiveData<List<Tarea>> listaNotasLiveData;
     //esta lista se mantendrá durante la vida de la Actividad
     private List<Tarea> listaTareas;
+
     public TareasViewModel(@NonNull Application application) {
         super(application);
         //el liveData nos permitirá recibir notificaciones  en la actividad cuando se modifique la lista
