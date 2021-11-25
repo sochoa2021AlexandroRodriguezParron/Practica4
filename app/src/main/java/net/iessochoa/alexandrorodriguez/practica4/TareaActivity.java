@@ -18,14 +18,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
+import model.Tarea;
+
 public class TareaActivity extends AppCompatActivity {
     //Constantes que nos ayudará a pasar los datos a otra actividad
-    public final static String EXTRA_CATEGORIA="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.categoria";
-    public final static String EXTRA_PRIORIDAD="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.prioridad";
-    public final static String EXTRA_ESTADO="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.estado";
-    public final static String EXTRA_TECNICO="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.tecnico";
-    public final static String EXTRA_RESUMEN="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.resumen";
-    public final static String EXTRA_DESCRIPCION="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.descripcion";
+    public final static String EXTRA="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.extra";
+
 
     //Atributos
     private Spinner sCategoria;
@@ -124,31 +122,35 @@ public class TareaActivity extends AppCompatActivity {
         fab_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(tiet_Tecnico.getText().toString().equalsIgnoreCase("")){
-                    iv_CampoVacio1.setVisibility(View.VISIBLE);
-                    Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoTecnico), Toast.LENGTH_SHORT).show();
+                //Si uno de los campos está vacio
+                if (tiet_Tecnico.getText().toString().equalsIgnoreCase("") ||
+                        tiet_Descripcion.getText().toString().equalsIgnoreCase("") ||
+                        et_Descripcion.getText().toString().equalsIgnoreCase("") ) {
+                    //Campo Tecnico
+                    if(tiet_Tecnico.getText().toString().equalsIgnoreCase("")){
+                        iv_CampoVacio1.setVisibility(View.VISIBLE);
+                        Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoTecnico), Toast.LENGTH_SHORT).show();
+                    }else{
+                        iv_CampoVacio1.setVisibility(View.INVISIBLE);
+                    }
+                    //Campo Breve Descripción
+                    if(tiet_Descripcion.getText().toString().equalsIgnoreCase("")){
+                        iv_CampoVacio2.setVisibility(View.VISIBLE);
+                        Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoBreveDescripcion), Toast.LENGTH_SHORT).show();
+                    }else{
+                        iv_CampoVacio2.setVisibility(View.INVISIBLE);
+                    }
+                    //Campo Descripción
+                    if(et_Descripcion.getText().toString().equalsIgnoreCase("")){
+                        iv_CampoVacio3.setVisibility(View.VISIBLE);
+                        Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoDescripcion), Toast.LENGTH_SHORT).show();
+                    }else{
+                        iv_CampoVacio3.setVisibility(View.INVISIBLE);
+                    }
                 }else{
-                    iv_CampoVacio1.setVisibility(View.INVISIBLE);
+                    //Si no estan vacíos
                     pasarDatosAOtraActividad();
                 }
-
-                if(tiet_Descripcion.getText().toString().equalsIgnoreCase("")){
-                    iv_CampoVacio2.setVisibility(View.VISIBLE);
-                    Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoBreveDescripcion), Toast.LENGTH_SHORT).show();
-                }else{
-                    iv_CampoVacio2.setVisibility(View.INVISIBLE);
-                    pasarDatosAOtraActividad();
-                }
-
-                if(et_Descripcion.getText().toString().equalsIgnoreCase("")){
-                    iv_CampoVacio3.setVisibility(View.VISIBLE);
-                    Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoDescripcion), Toast.LENGTH_SHORT).show();
-                }else{
-                    iv_CampoVacio3.setVisibility(View.INVISIBLE);
-                    pasarDatosAOtraActividad();
-                }
-
             }
         });
     }
@@ -159,13 +161,11 @@ public class TareaActivity extends AppCompatActivity {
         String resumen = tiet_Descripcion.getText().toString();
         String descripcion = et_Descripcion.getText().toString();
 
+        Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
         Intent i = getIntent();
-        i.putExtra(EXTRA_CATEGORIA, TareaActivity.this.categoria);
-        i.putExtra(EXTRA_PRIORIDAD, TareaActivity.this.prioridad);
-        i.putExtra(EXTRA_ESTADO, TareaActivity.this.estado);
-        i.putExtra(EXTRA_TECNICO, tecnico);
-        i.putExtra(EXTRA_RESUMEN, resumen);
-        i.putExtra(EXTRA_DESCRIPCION, descripcion);
+
+
+        i.putExtra(EXTRA, tarea);
 
         setResult(RESULT_OK, i);
         finish();

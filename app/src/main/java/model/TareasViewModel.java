@@ -44,6 +44,7 @@ public class TareasViewModel extends AndroidViewModel {
         crearDatos();
         //avisamos de la modificación con el LiveData
         listaNotasLiveData.setValue(listaTareas);
+
     }
     /**
      * nos permite recuperar el LiveData para asignar el listener al Observador en la activity
@@ -69,6 +70,7 @@ public class TareasViewModel extends AndroidViewModel {
         }
         //avisamos al LiveData para que active el Observer y la actividad muestre los cambios
         listaNotasLiveData.setValue(listaTareas);
+
     }
     /*
     Eliminamos la nota por id
@@ -123,7 +125,7 @@ public class TareasViewModel extends AndroidViewModel {
                 "Sed blandit arcu sed risus interdum fermentum. Integer ornare lorem urna, " +
                 "eget consequat ante lacinia et. Phasellus ut diam et diam euismod convallis ");
                 listaTareas.add(tarea);
-        tarea=new Tarea("Media","Comercial","Abierta","Fele Martinez","Presentar " +
+        tarea=new Tarea("Baja","Comercial","Abierta","Fele Martinez","Presentar " +
                 "presupuesto Web","Lorem ipsum dolor sit amet, " +
                 "consectetur adipiscing elit. Mauris laoreet aliquam sapien, quis mattis " +
                 "diam pretium vel. Integer nec tincidunt turpis. Vestibulum interdum" +
@@ -132,7 +134,5 @@ public class TareasViewModel extends AndroidViewModel {
                 "Sed blandit arcu sed risus interdum fermentum. Integer ornare lorem urna, " +
                 "eget consequat ante lacinia et. Phasellus ut diam et diam euismod convallis");
                 listaTareas.add(tarea);
-
-
     }
 }

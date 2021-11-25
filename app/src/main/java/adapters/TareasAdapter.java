@@ -23,6 +23,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
     private List<Tarea> listaTareas; //
 
 
+
     //cuando se modifique la lista, actualizamos el recyclerview
     public void setListaTareas(List<Tarea> tareas){
         listaTareas=tareas;

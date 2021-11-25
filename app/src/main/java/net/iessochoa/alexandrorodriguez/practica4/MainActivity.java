@@ -45,19 +45,16 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         //recuperamos los dados
                         Intent intent = result.getData();
-                        String prioridad = intent.getStringExtra(TareaActivity.EXTRA_PRIORIDAD);
-                        String categoria = intent.getStringExtra(TareaActivity.EXTRA_CATEGORIA);
-                        String estado = intent.getStringExtra(TareaActivity.EXTRA_ESTADO);
-                        String tecnico = intent.getStringExtra(TareaActivity.EXTRA_TECNICO);
-                        String resumen = intent.getStringExtra(TareaActivity.EXTRA_RESUMEN);
-                        String descripcion = intent.getStringExtra(TareaActivity.EXTRA_DESCRIPCION);
+                        Tarea tarea = intent.getParcelableExtra(TareaActivity.EXTRA);
 
-                        Toast.makeText(MainActivity.this, "El técnico es: "+tecnico, Toast.LENGTH_SHORT).show();
-
-                        Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
-                        TareasViewModel tareasViewModel = new TareasViewModel(null);
                         tareasViewModel.addTarea(tarea);
-
+                        tareasViewModel.getTareaList().observe(MainActivity.this, new Observer<List<Tarea>>() {
+                            @Override
+                            public void onChanged(List<Tarea> tarea) {
+                                //actualizamos el recyclerView si hay cambios en la lista de Notas
+                                tareasAdapter.setListaTareas(tarea);
+                            }
+                        });
                     }
                 }
             });
