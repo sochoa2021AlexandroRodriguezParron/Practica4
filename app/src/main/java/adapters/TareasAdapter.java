@@ -95,4 +95,6 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
 
         }
     }
+
+
 }

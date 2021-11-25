@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,16 +50,10 @@ public class MainActivity extends AppCompatActivity {
                         Tarea tarea = intent.getParcelableExtra(TareaActivity.EXTRA);
 
                         tareasViewModel.addTarea(tarea);
-                        tareasViewModel.getTareaList().observe(MainActivity.this, new Observer<List<Tarea>>() {
-                            @Override
-                            public void onChanged(List<Tarea> tarea) {
-                                //actualizamos el recyclerView si hay cambios en la lista de Notas
-                                tareasAdapter.setListaTareas(tarea);
-                            }
-                        });
                     }
                 }
             });
+
 
 
     @Override

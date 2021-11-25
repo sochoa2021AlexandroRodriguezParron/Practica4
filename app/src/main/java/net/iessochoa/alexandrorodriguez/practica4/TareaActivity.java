@@ -71,22 +71,22 @@ public class TareaActivity extends AppCompatActivity {
 
 
         //Categoria
-        ArrayAdapter<CharSequence> adaptador =ArrayAdapter.createFromResource(this, R.array.categoria, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.categoria, android.R.layout.simple_spinner_item);
         sCategoria.setAdapter(adaptador);
 
         //Prioridad
-        adaptador =ArrayAdapter.createFromResource(this, R.array.prioridad, android.R.layout.simple_spinner_item);
+        adaptador = ArrayAdapter.createFromResource(this, R.array.prioridad, android.R.layout.simple_spinner_item);
         sPrioridad.setAdapter(adaptador);
 
         //Estado
-        adaptador =ArrayAdapter.createFromResource(this, R.array.estado, android.R.layout.simple_spinner_item);
+        adaptador = ArrayAdapter.createFromResource(this, R.array.estado, android.R.layout.simple_spinner_item);
         sEstado.setAdapter(adaptador);
 
         sEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TareaActivity.this.estado = (String) parent.getItemAtPosition(position);
-                switch(TareaActivity.this.estado){
+                switch (TareaActivity.this.estado) {
                     case "Abierta":
                         iv_Estado.setImageResource(R.drawable.ic_abierto_foreground);
                         break;
@@ -98,24 +98,30 @@ public class TareaActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         sPrioridad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TareaActivity.this.prioridad = (String) parent.getItemAtPosition(position);
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         sCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TareaActivity.this.categoria = (String) parent.getItemAtPosition(position);
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
 
@@ -125,29 +131,29 @@ public class TareaActivity extends AppCompatActivity {
                 //Si uno de los campos está vacio
                 if (tiet_Tecnico.getText().toString().equalsIgnoreCase("") ||
                         tiet_Descripcion.getText().toString().equalsIgnoreCase("") ||
-                        et_Descripcion.getText().toString().equalsIgnoreCase("") ) {
+                        et_Descripcion.getText().toString().equalsIgnoreCase("")) {
                     //Campo Tecnico
-                    if(tiet_Tecnico.getText().toString().equalsIgnoreCase("")){
+                    if (tiet_Tecnico.getText().toString().equalsIgnoreCase("")) {
                         iv_CampoVacio1.setVisibility(View.VISIBLE);
                         Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoTecnico), Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         iv_CampoVacio1.setVisibility(View.INVISIBLE);
                     }
                     //Campo Breve Descripción
-                    if(tiet_Descripcion.getText().toString().equalsIgnoreCase("")){
+                    if (tiet_Descripcion.getText().toString().equalsIgnoreCase("")) {
                         iv_CampoVacio2.setVisibility(View.VISIBLE);
                         Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoBreveDescripcion), Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         iv_CampoVacio2.setVisibility(View.INVISIBLE);
                     }
                     //Campo Descripción
-                    if(et_Descripcion.getText().toString().equalsIgnoreCase("")){
+                    if (et_Descripcion.getText().toString().equalsIgnoreCase("")) {
                         iv_CampoVacio3.setVisibility(View.VISIBLE);
                         Toast.makeText(TareaActivity.this, getResources().getString(R.string.campoDescripcion), Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         iv_CampoVacio3.setVisibility(View.INVISIBLE);
                     }
-                }else{
+                } else {
                     //Si no estan vacíos
                     pasarDatosAOtraActividad();
                 }
@@ -163,6 +169,7 @@ public class TareaActivity extends AppCompatActivity {
 
         Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
         Intent i = getIntent();
+
 
 
         i.putExtra(EXTRA, tarea);
