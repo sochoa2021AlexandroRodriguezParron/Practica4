@@ -45,7 +45,6 @@ public class TareasViewModel extends AndroidViewModel {
         crearDatos();
         //avisamos de la modificación con el LiveData
         listaNotasLiveData.setValue(listaTareas);
-
     }
     /**
      * nos permite recuperar el LiveData para asignar el listener al Observador en la activity

@@ -6,22 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import net.iessochoa.alexandrorodriguez.practica4.MainActivity;
 import net.iessochoa.alexandrorodriguez.practica4.R;
 
 import java.util.List;
 
 import model.Tarea;
+import model.TareasViewModel;
 
 public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewHolder>{
 
     // Lista con las notas que vamos a mostrar;
-    private List<Tarea> listaTareas; //
+    private List<Tarea> listaTareas;
 
+    private OnItemClickBorrarListener listenerBorrar;
 
 
     //cuando se modifique la lista, actualizamos el recyclerview
@@ -84,6 +88,9 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
         private TextView tv_resumen;
         private TextView tv_tecnico;
         private ImageView iv_estado;
+
+        private ImageView iv_borrar;
+        private ImageView iv_editar;
         private ConstraintLayout clitem;
 
         public TareaViewHolder(@NonNull View itemView) {
@@ -91,9 +98,30 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
             tv_resumen = itemView.findViewById(R.id.tv_resumen);
             tv_tecnico = itemView.findViewById(R.id.tv_tecnico);
             iv_estado = itemView.findViewById(R.id.iv_estado);
+            iv_borrar = itemView.findViewById(R.id.iv_borrar);
+            iv_editar = itemView.findViewById(R.id.iv_editar);
             clitem = itemView.findViewById(R.id.clitem);
 
+            iv_borrar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listenerBorrar != null){
+                        //si se pulsa al icono borrar, le pasamos la nota. Podemos saber la posición del item en la lista
+                        listenerBorrar.onItemBorrarClick(listaTareas.get( TareaViewHolder.this.getBindingAdapterPosition()));
+                    }
+                }
+            });
+
+
         }
+    }
+
+    public interface OnItemClickBorrarListener {
+        void onItemBorrarClick(Tarea tarea);
+    }
+
+    public void setOnClickBorrarListener(OnItemClickBorrarListener listener) {
+        this.listenerBorrar = listener;
     }
 
 

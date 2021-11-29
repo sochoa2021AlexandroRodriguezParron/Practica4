@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -50,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
                         Tarea tarea = intent.getParcelableExtra(TareaActivity.EXTRA);
 
                         tareasViewModel.addTarea(tarea);
+
+                        tareasViewModel.getTareaList().observe(MainActivity.this, new Observer<List<Tarea>>() {
+                            @Override
+                            public void onChanged(List<Tarea> tarea) {
+                                //actualizamos el recyclerView si hay cambios en la lista de Notas
+                                tareasAdapter.setListaTareas(tarea);
+                            }
+                        });
                     }
                 }
             });
@@ -87,6 +96,41 @@ public class MainActivity extends AppCompatActivity {
                 mStartForResult.launch(i);
             }
         });
+
+        tareasAdapter.setOnClickBorrarListener(new TareasAdapter.OnItemClickBorrarListener() {
+            @Override
+            public void onItemBorrarClick(Tarea tarea) {
+                borrarTarea(tarea);
+            }
+        });
+    }
+
+    /**
+     * Permite borrar la nota, previamente muestra un dialogo para asegurar al usuario
+     * que desea borrarla
+     * @param tarea
+     */
+    private void borrarTarea(final Tarea tarea) {
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+        dialogo.setTitle("Aviso");// titulo y mensaje
+
+        dialogo.setMessage("Está seguro que desea eliminar la tarea con id "+tarea.getId());
+        // agregamos botón Ok y su evento
+        dialogo.setPositiveButton(android.R.string.yes
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso ok
+                        tareasViewModel.delTarea(tarea);                    }
+                });
+        dialogo.setNegativeButton(android.R.string.no
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Qué hacemos en caso cancel
+                    }
+                });
+        dialogo.show();
     }
 
     //Insertamos el menu con sus opciones.
