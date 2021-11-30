@@ -26,6 +26,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
     private List<Tarea> listaTareas;
 
     private OnItemClickBorrarListener listenerBorrar;
+    private OnItemClickEditarListener listenerEditar;
 
 
     //cuando se modifique la lista, actualizamos el recyclerview
@@ -112,6 +113,16 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
                 }
             });
 
+            iv_editar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listenerEditar != null){
+                        //si se pulsa al icono borrar, le pasamos la nota. Podemos saber la posición del item en la lista
+                        listenerEditar.onItemEditarClick(listaTareas.get( TareaViewHolder.this.getBindingAdapterPosition()));
+                    }
+                }
+            });
+
 
         }
     }
@@ -124,5 +135,12 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareaViewH
         this.listenerBorrar = listener;
     }
 
+    public interface OnItemClickEditarListener {
+        void onItemEditarClick(Tarea tarea);
+    }
+
+    public void setOnClickEditarListener(OnItemClickEditarListener listener) {
+        this.listenerEditar = listener;
+    }
 
 }

@@ -1,7 +1,13 @@
 package net.iessochoa.alexandrorodriguez.practica4;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +23,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Tarea;
 
 public class TareaActivity extends AppCompatActivity {
     //Constantes que nos ayudará a pasar los datos a otra actividad
-    public final static String EXTRA="net.iessochoa.alexandrorodriguez.practica3.NuevoContactoActivity.extra";
+    public final static String EXTRA="net.iessochoa.alexandrorodriguez.practica3.TareaActivity.extra";
 
 
     //Atributos
@@ -159,13 +166,46 @@ public class TareaActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Tarea tarea = getIntent().getParcelableExtra(MainActivity.EXTRA_MAIN);
+
+        if(tarea != null){
+            this.setTitle(getResources().getString(R.string.titulo_formateado, tarea.getId()));
+            sCategoria.setSelection(obtenerPosicionItem(sCategoria, tarea.getCategoria()));
+            sPrioridad.setSelection(obtenerPosicionItem(sPrioridad, tarea.getPrioridad()));
+            sEstado.setSelection(obtenerPosicionItem(sEstado, tarea.getEstado()));
+            tiet_Tecnico.setText(tarea.getTecnico().toString());
+            tiet_Descripcion.setText(tarea.getDescripcion().toString());
+            et_Descripcion.setText(tarea.getResumen().toString());
+        }
+
+
+
+    }
+
+    //Método para obtener la posición de un ítem del spinner
+    public static int obtenerPosicionItem(Spinner spinner, String fruta) {
+        //Creamos la variable posicion y lo inicializamos en 0
+        int posicion = 0;
+        //Recorre el spinner en busca del ítem que coincida con el parametro `String fruta`
+        //que lo pasaremos posteriormente
+        for (int i = 0; i < spinner.getCount(); i++) {
+            //Almacena la posición del ítem que coincida con la búsqueda
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(fruta)) {
+                posicion = i;
+            }
+        }
+        //Devuelve un valor entero (si encontro una coincidencia devuelve la
+        // posición 0 o N, de lo contrario devuelve 0 = posición inicial)
+        return posicion;
     }
 
     private void pasarDatosAOtraActividad() {
 
         String tecnico = tiet_Tecnico.getText().toString();
-        String resumen = tiet_Descripcion.getText().toString();
-        String descripcion = et_Descripcion.getText().toString();
+        String descripcion = tiet_Descripcion.getText().toString();
+        String resumen = et_Descripcion.getText().toString();
+
 
         Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
         Intent i = getIntent();

@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,12 +31,15 @@ import model.TareasViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Constantes que nos ayudará a pasar los datos a otra actividad
+    public final static String EXTRA_MAIN="net.iessochoa.alexandrorodriguez.practica3.MainActivity.extra";
+
     private TareasAdapter tareasAdapter;
     private TareasViewModel tareasViewModel;
     private RecyclerView rvLista;
     private FloatingActionButton fabAdd;
 
-    //Método que nos permitirá obtener los datos de la actividad NuevoContactoActivity
+    //Método que nos permitirá obtener los datos de la actividad TareaActivity
     ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -103,10 +103,25 @@ public class MainActivity extends AppCompatActivity {
                 borrarTarea(tarea);
             }
         });
+        tareasAdapter.setOnClickEditarListener(new TareasAdapter.OnItemClickEditarListener() {
+            @Override
+            public void onItemEditarClick(Tarea tarea) {
+                editarTarea(tarea);
+            }
+        });
+    }
+    /**
+     * Permite editar la tarea
+     * @param tarea
+     */
+    private void editarTarea(Tarea tarea) {
+        Intent i = new Intent(MainActivity.this, TareaActivity.class);
+        i.putExtra(EXTRA_MAIN, tarea);
+        mStartForResult.launch(i);
     }
 
     /**
-     * Permite borrar la nota, previamente muestra un dialogo para asegurar al usuario
+     * Permite borrar la tarea, previamente muestra un dialogo para asegurar al usuario
      * que desea borrarla
      * @param tarea
      */
@@ -145,10 +160,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_add:
+            case R.id.action_order:
                 Toast.makeText(MainActivity.this, "Se ha ordenado la lista", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.action_del:
                 break;
             case R.id.action_acercade:
                 mostrarDialogo();
