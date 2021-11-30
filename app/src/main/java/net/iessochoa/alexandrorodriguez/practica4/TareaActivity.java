@@ -132,10 +132,24 @@ public class TareaActivity extends AppCompatActivity {
         });
 
 
+        Tarea tarea = getIntent().getParcelableExtra(MainActivity.EXTRA_MAIN);
+
+        if(tarea != null){
+            this.setTitle(getResources().getString(R.string.titulo_formateado, tarea.getId()));
+            sCategoria.setSelection(obtenerPosicionItem(sCategoria, tarea.getCategoria()));
+            sPrioridad.setSelection(obtenerPosicionItem(sPrioridad, tarea.getPrioridad()));
+            sEstado.setSelection(obtenerPosicionItem(sEstado, tarea.getEstado()));
+            tiet_Tecnico.setText(tarea.getTecnico().toString());
+            tiet_Descripcion.setText(tarea.getDescripcion().toString());
+            et_Descripcion.setText(tarea.getResumen().toString());
+        }
+
         fab_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Si uno de los campos está vacio
+
+
                 if (tiet_Tecnico.getText().toString().equalsIgnoreCase("") ||
                         tiet_Descripcion.getText().toString().equalsIgnoreCase("") ||
                         et_Descripcion.getText().toString().equalsIgnoreCase("")) {
@@ -161,23 +175,29 @@ public class TareaActivity extends AppCompatActivity {
                         iv_CampoVacio3.setVisibility(View.INVISIBLE);
                     }
                 } else {
-                    //Si no estan vacíos
-                    pasarDatosAOtraActividad();
+                    //Actualizamos la tarea en caso de que exista
+                    if(tarea != null){
+                        tarea.setCategoria(categoria);
+                        tarea.setPrioridad(prioridad);
+                        tarea.setEstado(estado);
+                        tarea.setTecnico(tiet_Tecnico.getText().toString());
+                        tarea.setDescripcion(tiet_Descripcion.getText().toString());
+                        tarea.setResumen(et_Descripcion.getText().toString());
+
+                        Intent i = getIntent();
+                        i.putExtra(EXTRA, tarea);
+                        setResult(RESULT_OK, i);
+                        finish();
+                    }else{
+                        //Si no existe no se pasan los datos obtenidos de los edittext y spinner y se crea de nuevo
+                        pasarDatosAOtraActividad();
+                    }
+
                 }
             }
         });
 
-        Tarea tarea = getIntent().getParcelableExtra(MainActivity.EXTRA_MAIN);
 
-        if(tarea != null){
-            this.setTitle(getResources().getString(R.string.titulo_formateado, tarea.getId()));
-            sCategoria.setSelection(obtenerPosicionItem(sCategoria, tarea.getCategoria()));
-            sPrioridad.setSelection(obtenerPosicionItem(sPrioridad, tarea.getPrioridad()));
-            sEstado.setSelection(obtenerPosicionItem(sEstado, tarea.getEstado()));
-            tiet_Tecnico.setText(tarea.getTecnico().toString());
-            tiet_Descripcion.setText(tarea.getDescripcion().toString());
-            et_Descripcion.setText(tarea.getResumen().toString());
-        }
 
 
 
@@ -210,18 +230,11 @@ public class TareaActivity extends AppCompatActivity {
         Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
         Intent i = getIntent();
 
-
-
         i.putExtra(EXTRA, tarea);
 
         setResult(RESULT_OK, i);
         finish();
     }
-
-
-
-
-
 
     public String getCategoria() {
         return categoria;

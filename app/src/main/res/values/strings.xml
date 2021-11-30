@@ -18,6 +18,8 @@
     <string name="campoBreveDescripcion">Falta el campo de la Breve Descripción</string>
     <string name="campoDescripcion">Falta el campo de la Descripción</string>
     <string name="titulo_formateado">Tarea %1$d</string>
+    <string name="titulo">Aviso</string>
+    <string name="mensaje">Está seguro que desea eliminar la tarea con id %1$d</string>
 
     //Arrays
     <string-array name="prioridad">

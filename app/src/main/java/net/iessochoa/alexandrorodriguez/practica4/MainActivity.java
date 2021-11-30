@@ -127,16 +127,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private void borrarTarea(final Tarea tarea) {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
-        dialogo.setTitle("Aviso");// titulo y mensaje
+        dialogo.setTitle(getResources().getString(R.string.titulo));// titulo y mensaje
 
-        dialogo.setMessage("Está seguro que desea eliminar la tarea con id "+tarea.getId());
+        dialogo.setMessage(getResources().getString(R.string.mensaje, tarea.getId()));
         // agregamos botón Ok y su evento
         dialogo.setPositiveButton(android.R.string.yes
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Qué hacemos en caso ok
-                        tareasViewModel.delTarea(tarea);                    }
+                        tareasViewModel.delTarea(tarea);
+                    }
                 });
         dialogo.setNegativeButton(android.R.string.no
                 , new DialogInterface.OnClickListener() {
