@@ -14,15 +14,8 @@ import java.util.List;
 import model.Tarea;
 
 /**
- * ViewModel
- *https://developer.android.com/topic/libraries/architecture/viewmodel
  * La clase ViewModel nos permite mantener los datos en las reconstruciones. En el onCreate recuperamos el viewmodel
  * si venimos de una reconstrucción o creará uno nuevo si es nueva la app. Tenéis un ejemplo en
- * https://www.youtube.com/watch?v=9Ya3yieB8aI&t=7s,
- * https://www.youtube.com/watch?v=rOlWmK0wlJo
- * https://www.youtube.com/watch?v=A2RA36ibC4I
- * LiveData
- * https://developer.android.com/topic/libraries/architecture/livedata
  * Los datos que creamos en el viewmodel no se pierden y se mantienen en memoria
  * Los datos de tipo LiveData, nos permiten mantener observadores en el UI(la activity) para
  * detectar cuando hay cambios en los datos.
@@ -30,24 +23,27 @@ import model.Tarea;
  * el LiveData se llamará al observer creado en la activity para mostrar los datos en pantalla
  */
 public class TareasViewModel extends AndroidViewModel {
-    //si queremos que la actividad reciba un aviso cuando se modifican los datos, tenemos que crear
-    //un LiveData(https://developer.android.com/topic/libraries/architecture/livedata)
-    //
+    //Si queremos que la actividad reciba un aviso cuando se modifican los datos, tenemos que crear
+    //un LiveData
     private MutableLiveData<List<Tarea>> listaNotasLiveData;
-    //esta lista se mantendrá durante la vida de la Actividad
+    //Esta lista se mantendrá durante la vida de la Actividad
     private List<Tarea> listaTareas;
 
+    /**
+     * Constructor
+     * @param application
+     */
     public TareasViewModel(@NonNull Application application) {
         super(application);
-        //el liveData nos permitirá recibir notificaciones  en la actividad cuando se modifique la lista
+        //El liveData nos permitirá recibir notificaciones  en la actividad cuando se modifique la lista
         listaNotasLiveData=new MutableLiveData<List<Tarea>>();
-        //creamos unos datos de ejemplo
+        //Creamos unos datos de ejemplo
         crearDatos();
-        //avisamos de la modificación con el LiveData
+        //Avisamos de la modificación con el LiveData
         listaNotasLiveData.setValue(listaTareas);
     }
     /**
-     * nos permite recuperar el LiveData para asignar el listener al Observador en la activity
+     * Nos permite recuperar el LiveData para asignar el listener al Observador en la activity
      * cuando se modifican los datos
      * @return
      */
@@ -56,11 +52,11 @@ public class TareasViewModel extends AndroidViewModel {
     }
 
     /**
-     * nos permite añadir una Nota a la lista
+     * Nos permite añadir una Nota a la lista
      * @param tarea
      */
     public void addTarea(Tarea tarea){
-        //añadimos una Tarea a la lista, si existe(mismo id), la sustituimos
+        //Añadimos una Tarea a la lista, si existe(mismo id), la sustituimos
         int i=listaTareas.indexOf(tarea);
         if(i<0)
             listaTareas.add(tarea);
@@ -68,24 +64,25 @@ public class TareasViewModel extends AndroidViewModel {
             listaTareas.remove(i);
             listaTareas.add(i,tarea);
         }
-        //avisamos al LiveData para que active el Observer y la actividad muestre los cambios
+        //Avisamos al LiveData para que active el Observer y la actividad muestre los cambios
         listaNotasLiveData.setValue(listaTareas);
 
     }
 
 
-    /*
-    Eliminamos la nota por id
+    /**
+     * Eliminamos la nota por id
+     * @param tarea
      */
     public void delTarea(Tarea tarea){
         if(listaTareas.size()>0){
             listaTareas.remove(tarea);
-            //avisamos al LiveData para que active el Observer
+            //Avisamos al LiveData para que active el Observer
             listaNotasLiveData.setValue(listaTareas);
         }
     }
     /**
-     * creamos unos datos de muestra
+     * Creamos unos datos de muestra
      */
     private void crearDatos() {
         listaTareas=new ArrayList<Tarea>();

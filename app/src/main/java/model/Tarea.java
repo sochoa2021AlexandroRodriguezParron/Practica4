@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Tarea implements Parcelable {
+    //Atributos
     static int contador = 1;
     private int id;
     private String prioridad;
@@ -24,7 +25,7 @@ public class Tarea implements Parcelable {
         this.resumen = resumen;
     }
 
-    //Constructor
+    //Constructor completo
     public Tarea(int id, String prioridad, String categoria, String estado, String tecnico, String descripcion, String resumen) {
         this.id = id;
         this.prioridad = prioridad;
@@ -102,7 +103,7 @@ public class Tarea implements Parcelable {
 
     /**
      * Creamos el método equals que nos permitirá localizar fácilmente el objeto en un arraylist mediante indexOf
-     * Dos notas son iguales si lo es su id
+     * Dos Tareas son iguales si lo es su id
      * @param o
      * @return
      */
@@ -115,13 +116,16 @@ public class Tarea implements Parcelable {
     }
 
     //Parcelable
-
-
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Escribimos en un objeto Parcel, todos los atributos de las Tareas.
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
@@ -133,6 +137,10 @@ public class Tarea implements Parcelable {
         dest.writeString(this.resumen);
     }
 
+    /**
+     * Métodos para leer datos Tarea desde un objeto Parcel
+     * @param source
+     */
     public void readFromParcel(Parcel source) {
         this.id = source.readInt();
         this.prioridad = source.readString();
@@ -142,7 +150,6 @@ public class Tarea implements Parcelable {
         this.descripcion = source.readString();
         this.resumen = source.readString();
     }
-
     protected Tarea(Parcel in) {
         this.id = in.readInt();
         this.prioridad = in.readString();
@@ -153,6 +160,9 @@ public class Tarea implements Parcelable {
         this.resumen = in.readString();
     }
 
+    /**
+     * Constante CREATOR
+     */
     public static final Parcelable.Creator<Tarea> CREATOR = new Parcelable.Creator<Tarea>() {
         @Override
         public Tarea createFromParcel(Parcel source) {

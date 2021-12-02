@@ -31,23 +31,23 @@ public class TareaActivity extends AppCompatActivity {
     //Constantes que nos ayudará a pasar los datos a otra actividad
     public final static String EXTRA="net.iessochoa.alexandrorodriguez.practica3.TareaActivity.extra";
 
-
     //Atributos
+    //Spinner
     private Spinner sCategoria;
     private Spinner sPrioridad;
     private Spinner sEstado;
-
+    //Edittext
     private TextInputEditText tiet_Tecnico;
     private TextInputEditText tiet_Descripcion;
     private EditText et_Descripcion;
-
+    //FAB
     private FloatingActionButton fab_Guardar;
-
+    //ImageView
     private ImageView iv_Estado;
     private ImageView iv_CampoVacio1;
     private ImageView iv_CampoVacio2;
     private ImageView iv_CampoVacio3;
-
+    //String
     private String categoria;
     private String prioridad;
     private String estado;
@@ -57,6 +57,7 @@ public class TareaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarea);
 
+        //Le damos referencia a los atributos de la clase con los componentes de la actividad
         sCategoria = findViewById(R.id.sCategoria);
         sPrioridad = findViewById(R.id.sPrioridad);
         sEstado = findViewById(R.id.sEstado);
@@ -66,7 +67,7 @@ public class TareaActivity extends AppCompatActivity {
         tiet_Descripcion = findViewById(R.id.tiet_Descripcion);
         et_Descripcion = findViewById(R.id.et_Descripcion);
 
-        //ImageView
+        //ImageView y los hacemos invisibles
         iv_CampoVacio1 = findViewById(R.id.iv_CampoVacio1);
         iv_CampoVacio1.setVisibility(View.INVISIBLE);
 
@@ -77,22 +78,25 @@ public class TareaActivity extends AppCompatActivity {
         iv_CampoVacio3.setVisibility(View.INVISIBLE);
 
 
-        //Categoria
+        //Categoria, lo referenciamos con el array de string en la carpeta RES
         ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(this, R.array.categoria, android.R.layout.simple_spinner_item);
         sCategoria.setAdapter(adaptador);
 
-        //Prioridad
+        //Prioridad, lo referenciamos con el array de string en la carpeta RES
         adaptador = ArrayAdapter.createFromResource(this, R.array.prioridad, android.R.layout.simple_spinner_item);
         sPrioridad.setAdapter(adaptador);
 
-        //Estado
+        //Estado, lo referenciamos con el array de string en la carpeta RES
         adaptador = ArrayAdapter.createFromResource(this, R.array.estado, android.R.layout.simple_spinner_item);
         sEstado.setAdapter(adaptador);
 
+        //Le damos funcionalidad al Spinner Estado
         sEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Obtenemos la posición que se ha clickado
                 TareaActivity.this.estado = (String) parent.getItemAtPosition(position);
+                //En el caso de que sea una de las opciones le ponemos un icono distinto
                 switch (TareaActivity.this.estado) {
                     case "Abierta":
                         iv_Estado.setImageResource(R.drawable.ic_abierto_foreground);
@@ -110,9 +114,11 @@ public class TareaActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        //Le damos funcionalidad al Spinner Prioridad
         sPrioridad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Obtenemos la posición que se ha clickado
                 TareaActivity.this.prioridad = (String) parent.getItemAtPosition(position);
             }
 
@@ -123,6 +129,7 @@ public class TareaActivity extends AppCompatActivity {
         sCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Obtenemos la posición que se ha clickado
                 TareaActivity.this.categoria = (String) parent.getItemAtPosition(position);
             }
 
@@ -131,10 +138,13 @@ public class TareaActivity extends AppCompatActivity {
             }
         });
 
-
+        //Guardamos la tarea obtenida desde otra Actividad
         Tarea tarea = getIntent().getParcelableExtra(MainActivity.EXTRA_MAIN);
 
+
         if(tarea != null){
+            //Si no es nulo.
+            //Escribimos cada atributo de la tarea en los campos de la TareaActivity para poder actualizar sus valores.
             this.setTitle(getResources().getString(R.string.titulo_formateado, tarea.getId()));
             sCategoria.setSelection(obtenerPosicionItem(sCategoria, tarea.getCategoria()));
             sPrioridad.setSelection(obtenerPosicionItem(sPrioridad, tarea.getPrioridad()));
@@ -144,12 +154,11 @@ public class TareaActivity extends AppCompatActivity {
             et_Descripcion.setText(tarea.getResumen().toString());
         }
 
+        //Le damos funcionalidad al FAB guardar.
         fab_Guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Si uno de los campos está vacio
-
-
                 if (tiet_Tecnico.getText().toString().equalsIgnoreCase("") ||
                         tiet_Descripcion.getText().toString().equalsIgnoreCase("") ||
                         et_Descripcion.getText().toString().equalsIgnoreCase("")) {
@@ -184,23 +193,19 @@ public class TareaActivity extends AppCompatActivity {
                         tarea.setDescripcion(tiet_Descripcion.getText().toString());
                         tarea.setResumen(et_Descripcion.getText().toString());
 
+                        //Le mandamos los cambios de la tarea para que los inserte con los nuevos cambios
                         Intent i = getIntent();
                         i.putExtra(EXTRA, tarea);
                         setResult(RESULT_OK, i);
                         finish();
                     }else{
-                        //Si no existe no se pasan los datos obtenidos de los edittext y spinner y se crea de nuevo
+                        //Si no existe la tarea, se pasan los datos obtenidos de los edittext y spinner y se crea de nuevo
                         pasarDatosAOtraActividad();
                     }
 
                 }
             }
         });
-
-
-
-
-
     }
 
     //Método para obtener la posición de un ítem del spinner
@@ -220,22 +225,26 @@ public class TareaActivity extends AppCompatActivity {
         return posicion;
     }
 
+    /**
+     * Desde este método le mandamos un objeto tarea a otra actividad (en este caso al MainActivity)
+     */
     private void pasarDatosAOtraActividad() {
 
         String tecnico = tiet_Tecnico.getText().toString();
         String descripcion = tiet_Descripcion.getText().toString();
         String resumen = et_Descripcion.getText().toString();
 
-
+        //Creamos la tarea y le añadimos los datos correspondientes.
         Tarea tarea = new Tarea(prioridad, categoria, estado, tecnico, descripcion, resumen);
         Intent i = getIntent();
 
         i.putExtra(EXTRA, tarea);
-
+        //Se la pasamos al MainActivity
         setResult(RESULT_OK, i);
         finish();
     }
 
+    //Gettes & Setters
     public String getCategoria() {
         return categoria;
     }

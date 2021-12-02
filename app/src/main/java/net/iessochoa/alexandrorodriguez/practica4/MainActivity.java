@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     //Constantes que nos ayudará a pasar los datos a otra actividad
     public final static String EXTRA_MAIN="net.iessochoa.alexandrorodriguez.practica3.MainActivity.extra";
 
+    //Atributos
     private TareasAdapter tareasAdapter;
     private TareasViewModel tareasViewModel;
     private RecyclerView rvLista;
@@ -44,18 +45,18 @@ public class MainActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    //si el usuario pulsa OK en la Activity que hemos llamado
+                    //Si el usuario pulsa OK en la Activity que hemos llamado
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        //recuperamos los dados
+                        //Recuperamos los dados
                         Intent intent = result.getData();
                         Tarea tarea = intent.getParcelableExtra(TareaActivity.EXTRA);
-
+                        //Los añadimos a la lista de tareas que se encuentra en la clase TareaViewModel.
                         tareasViewModel.addTarea(tarea);
 
                         tareasViewModel.getTareaList().observe(MainActivity.this, new Observer<List<Tarea>>() {
                             @Override
                             public void onChanged(List<Tarea> tarea) {
-                                //actualizamos el recyclerView si hay cambios en la lista de Notas
+                                //Actualizamos el recyclerView si hay cambios en la lista de Notas.
                                 tareasAdapter.setListaTareas(tarea);
                             }
                         });
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Establecemos conexión del atributo del codigo, con el componente gráfico
         rvLista = findViewById(R.id.rvLista);
         fabAdd = findViewById(R.id.fabAdd);
 
@@ -80,23 +82,27 @@ public class MainActivity extends AppCompatActivity {
         //ViewModel
         tareasViewModel = new ViewModelProvider(this).get(TareasViewModel.class);
 
-        // se muestren automáticamente
+        //Se muestren automáticamente
         tareasViewModel.getTareaList().observe(this, new Observer<List<Tarea>>() {
             @Override
             public void onChanged(List<Tarea> tarea) {
-                //actualizamos el recyclerView si hay cambios en la lista de Notas
+                //Actualizamos el recyclerView si hay cambios en la lista de Notas
                 tareasAdapter.setListaTareas(tarea);
             }
         });
 
+        //Le damos Utilidad al FAB
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Pasa de esta actividad a la TareaActivity
                 Intent i = new Intent(MainActivity.this, TareaActivity.class);
+                //Lanzamos el result
                 mStartForResult.launch(i);
             }
         });
 
+        //Le damos utilidad a los ImageView Borrar y Editar
         tareasAdapter.setOnClickBorrarListener(new TareasAdapter.OnItemClickBorrarListener() {
             @Override
             public void onItemBorrarClick(Tarea tarea) {
@@ -110,13 +116,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Permite editar la tarea
      * @param tarea
      */
     private void editarTarea(Tarea tarea) {
+        //Pasa de esta actividad a la TareaActivity
         Intent i = new Intent(MainActivity.this, TareaActivity.class);
+        //Le manda el objeto tarea
         i.putExtra(EXTRA_MAIN, tarea);
+        //Lanzamos el result
         mStartForResult.launch(i);
     }
 
@@ -127,15 +137,15 @@ public class MainActivity extends AppCompatActivity {
      */
     private void borrarTarea(final Tarea tarea) {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
-        dialogo.setTitle(getResources().getString(R.string.titulo));// titulo y mensaje
+        dialogo.setTitle(getResources().getString(R.string.titulo));//Titulo y mensaje
 
         dialogo.setMessage(getResources().getString(R.string.mensaje, tarea.getId()));
-        // agregamos botón Ok y su evento
+        //Agregamos botón Ok y su evento
         dialogo.setPositiveButton(android.R.string.yes
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso ok
+                        //En caso Positivo Borramos la Tarea
                         tareasViewModel.delTarea(tarea);
                     }
                 });
@@ -143,9 +153,10 @@ public class MainActivity extends AppCompatActivity {
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Qué hacemos en caso cancel
+                        //En caso negativo no hacemos nada
                     }
                 });
+        //Mostramos el dialogo
         dialogo.show();
     }
 
@@ -172,6 +183,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Método para Mostrar el dialogo
+     */
     private void mostrarDialogo() {
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
         dialogo.setTitle(getResources().getString(R.string.ic_about));
